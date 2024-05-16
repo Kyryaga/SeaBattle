@@ -15,6 +15,15 @@ MainWindow::MainWindow(QWidget *parent)
     QPalette pal;
     pal.setBrush(QPalette::Active, QPalette::Window, QBrush(QPixmap(":/images/background.png")));
     this->setPalette(pal);
+
+    // размещение кнопки
+    infoLabel = new QLabel(this);
+
+    infoLabel->move(200, 260);
+    infoLabel->setText("Расставьте корабли!");
+    infoLabel->setFixedSize(170, 40);
+    infoLabel->setStyleSheet("font-weight: bold; border-style: outset; border-width: 2px; border-radius: 10px;");
+    infoLabel->setAlignment(Qt::AlignCenter);
 }
 
 MainWindow::~MainWindow() {
@@ -70,6 +79,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
                         if (gameController->checkPlayerShipPlacement()) {
                             gameController->printPlayerAllCellStates();
+                            infoLabel->setText("Начать - ENTER");
 
 
 
@@ -78,6 +88,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                     }
                 } else {
                     gameController->setPlayerCellState(qp, 0);
+                    infoLabel->setText("Расставьте корабли!");
                 }
 
 
