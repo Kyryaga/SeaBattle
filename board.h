@@ -5,22 +5,25 @@
 #include "ship.h"
 
 
+enum Cell {
+    EMPTY,
+    DOT,
+    SHIP,
+    DEAD
+};
+
+
 class Board
 {
 public:
     Board();
 
-    enum Cell {
-        EMPTY,
-        DOT,
-        SHIP,
-        DEAD
-    };
-
     void addShip(Ship* ship);
     void setCellState(QPoint point, Cell state);
     Cell getCellState(QPoint point);
     void printBoardStates();
+
+    QVector<Cell> getCells();
 
 private:
     QVector<Cell> cells;

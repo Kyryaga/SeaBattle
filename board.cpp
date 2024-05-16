@@ -14,7 +14,7 @@ void Board::setCellState(QPoint point, Cell state)
     cells[point.x() + 10 * point.y()] = state;
 }
 
-Board::Cell Board::getCellState(QPoint point)
+Cell Board::getCellState(QPoint point)
 {
     return cells[point.x() + 10 * point.y()];
 }
@@ -33,4 +33,9 @@ void Board::printBoardStates()
     }
 
     qDebug() << "\n";
+}
+
+QVector<Cell> Board::getCells()
+{
+    return cells;
 }

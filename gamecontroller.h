@@ -19,6 +19,16 @@ public:
 
     void createFlots(); // создает все корабли для обоих игроков
 
+    int getPlayerShipCellsCount();
+
+    bool isEmptyCell(QPoint point);
+
+    void setCellState(QPoint point, int stateNum);
+
+    void printAllCellStates();
+
+    QVector<Cell> getAllCells();
+
 private:
     GameState gameState;
 

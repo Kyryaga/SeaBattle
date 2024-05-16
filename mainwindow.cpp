@@ -65,33 +65,62 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                     qp.setY(9);
 
 
+                if (gameController->getPlayerShipCellsCount() < 20) {
+                    if (gameController->isEmptyCell(qp)) {
+                        // поставить палубу
+                        gameController->setCellState(qp, 2);
 
-                points.append(qp);
+                        gameController->printAllCellStates();
 
-                update();
+
+                        update();
+                    }
+                }
             }
         }
     }
 }
 
+// добавить перебор cells каждый ход и соответствующую перерисовку
 void MainWindow::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
     QPainter painter(this);
 
-    for (const QPoint point : points) {
-        QPoint drawPoint;
-        if (point.x() < 5 && point.y() < 5) {
-            drawPoint.setX(MYFIELD_X + (point.x() * CELL_SIZE));
-            drawPoint.setY(MYFIELD_Y + (point.y() * CELL_SIZE));
+    QVector<Cell> currentCellsState = gameController->getAllCells();
 
-        } else {
-            drawPoint.setX(MYFIELD_HALF_X + ((point.x() - 5) * CELL_SIZE));
-            drawPoint.setY(MYFIELD_HALF_Y + ((point.y() - 5) * CELL_SIZE));
+    for (int i {0}; i < currentCellsState.size(); i++) {
+        if (currentCellsState[i] == Cell::SHIP) {
+            QPoint drawPoint;
+
+            int x = i % 10;
+            int y = i / 10;
+
+            if (x < 5 && y < 5) {
+                drawPoint.setX(MYFIELD_X + (x * CELL_SIZE));
+                drawPoint.setY(MYFIELD_Y + (y * CELL_SIZE));
+            } else {
+                drawPoint.setX(MYFIELD_HALF_X + ((x - 5) * CELL_SIZE));
+                drawPoint.setY(MYFIELD_HALF_Y + ((y - 5) * CELL_SIZE));
+            }
+
+            painter.drawPixmap(drawPoint, QPixmap(":images/full.png"));
         }
-
-        painter.drawPixmap(drawPoint, QPixmap(":images/full.png"));
     }
+
+    // for (const QPoint point : points) {
+    //     QPoint drawPoint;
+    //     if (point.x() < 5 && point.y() < 5) {
+    //         drawPoint.setX(MYFIELD_X + (point.x() * CELL_SIZE));
+    //         drawPoint.setY(MYFIELD_Y + (point.y() * CELL_SIZE));
+
+    //     } else {
+    //         drawPoint.setX(MYFIELD_HALF_X + ((point.x() - 5) * CELL_SIZE));
+    //         drawPoint.setY(MYFIELD_HALF_Y + ((point.y() - 5) * CELL_SIZE));
+    //     }
+
+    //     painter.drawPixmap(drawPoint, QPixmap(":images/full.png"));
+    // }
 }
 
 

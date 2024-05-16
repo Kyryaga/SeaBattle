@@ -3,8 +3,6 @@
 Player::Player() {
     board = new Board();
 
-
-    board->setCellState(QPoint(9, 1), Board::Cell::SHIP);
     board->printBoardStates();
 }
 
@@ -31,6 +29,11 @@ void Player::createFlot()
     for (int i {0}; i < SHIPS1COUNT; i++) {
         board->addShip(createShip(1));
     }
+}
+
+Board *Player::getBoard()
+{
+    return board;
 }
 
 

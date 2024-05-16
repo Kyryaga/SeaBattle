@@ -15,6 +15,8 @@ public:
 
     void createFlot();
 
+    Board *getBoard();
+
 private:
     Board* board;
 };
