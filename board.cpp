@@ -43,3 +43,15 @@ QVector<Cell> Board::getCells()
 {
     return cells;
 }
+
+QVector<Ship *> Board::getFlot()
+{
+    return flot;
+}
+
+void Board::prettyPrintFlot()
+{
+    for (Ship* ship : flot) {
+        qDebug() << "w: " << ship->getWeight() << ", " << ship->getCoords();
+    }
+}

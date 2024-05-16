@@ -17,6 +17,8 @@ public:
 
     int getWeight();
     QVector<bool> getShipPartsState();
+    void setCoords(QPoint point);
+    QPoint getCoords();
 };
 
 

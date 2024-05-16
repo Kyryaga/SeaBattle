@@ -39,11 +39,11 @@ public:
 
     QVector<Cell> getBotAllCells();
 
-    // начало проверки размещения кораблей
     bool checkPlayerShipPlacement();
 
     bool checkBotShipPlacement();
-    // окончание проверки размещения кораблей
+
+    void syncPlayerShipsCells();
 
     void setGameState(GameState newState);
 

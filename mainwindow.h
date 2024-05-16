@@ -9,6 +9,7 @@
 #include <QImage>
 #include <QVector>
 #include <QLabel>
+#include <QKeyEvent>
 
 class MainWindow : public QMainWindow
 {
@@ -26,6 +27,7 @@ private:
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 };
 
 

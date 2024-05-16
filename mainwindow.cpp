@@ -79,11 +79,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
                         if (gameController->checkPlayerShipPlacement()) {
                             gameController->printPlayerAllCellStates();
-                            infoLabel->setText("Начать - ENTER");
-
-
-
-                            // gameController->setGameState(GameState::PLAYER_TURN);
+                            infoLabel->setText("Начать - ПРОБЕЛ");
                         }
                     }
                 } else {
@@ -123,6 +119,24 @@ void MainWindow::paintEvent(QPaintEvent *event)
             }
 
             painter.drawPixmap(drawPoint, QPixmap(":images/full.png"));
+        }
+    }
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if (gameController->getGameState() == GameState::SHIPS_PLACING) {
+        if (event->key() == Qt::Key_Space) {
+            if (gameController->checkPlayerShipPlacement()) {
+                // синхронизация кораблей и клеток
+                gameController->syncPlayerShipsCells();
+
+                // смена состояния на ХОД ИГРОКА
+                gameController->setGameState(GameState::PLAYER_TURN);
+
+                // смена надписи
+                infoLabel->setText("Твой Ход!");
+            }
         }
     }
 }

@@ -25,6 +25,9 @@ public:
 
     QVector<Cell> getCells();
 
+    QVector<Ship *> getFlot();
+    void prettyPrintFlot();
+
 private:
     QVector<Cell> cells;
     QVector<Ship*> flot;
