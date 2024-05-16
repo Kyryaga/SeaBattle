@@ -64,18 +64,21 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                 if (qp.y() == 10)
                     qp.setY(9);
 
-
-                if (gameController->getPlayerShipCellsCount() < 20) {
-                    if (gameController->isEmptyCell(qp)) {
-                        // поставить палубу
+                if (gameController->isEmptyCell(qp)) {
+                    if (gameController->getPlayerShipCellsCount() < 20) {
                         gameController->setCellState(qp, 2);
 
                         gameController->printAllCellStates();
-
-
-                        update();
                     }
+                } else {
+                    gameController->setCellState(qp, 0);
+
+                    gameController->printAllCellStates();
                 }
+
+
+                update();
+
             }
         }
     }
@@ -107,20 +110,6 @@ void MainWindow::paintEvent(QPaintEvent *event)
             painter.drawPixmap(drawPoint, QPixmap(":images/full.png"));
         }
     }
-
-    // for (const QPoint point : points) {
-    //     QPoint drawPoint;
-    //     if (point.x() < 5 && point.y() < 5) {
-    //         drawPoint.setX(MYFIELD_X + (point.x() * CELL_SIZE));
-    //         drawPoint.setY(MYFIELD_Y + (point.y() * CELL_SIZE));
-
-    //     } else {
-    //         drawPoint.setX(MYFIELD_HALF_X + ((point.x() - 5) * CELL_SIZE));
-    //         drawPoint.setY(MYFIELD_HALF_Y + ((point.y() - 5) * CELL_SIZE));
-    //     }
-
-    //     painter.drawPixmap(drawPoint, QPixmap(":images/full.png"));
-    // }
 }
 
 
