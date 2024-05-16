@@ -2,8 +2,6 @@
 
 Player::Player() {
     board = new Board();
-
-    board->printBoardStates();
 }
 
 Player::~Player() {}

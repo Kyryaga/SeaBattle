@@ -198,7 +198,6 @@ bool checkShipPlacement(Player* somePlayer)
             shipNum(somePlayer, 2) == 3 &&
             shipNum(somePlayer, 3) == 2 &&
             shipNum(somePlayer, 4) == 1) {
-            qDebug() << "КОРРЕКТНАЯ РАССТАНОВКА КОРАБЛЕЙ\n";
 
             return 1;
         } else {
@@ -333,6 +332,11 @@ void GameController::syncPlayerShipsCells()
     return syncShipsCells(player);
 }
 
+void GameController::syncBotShipsCells()
+{
+    return syncShipsCells(bot);
+}
+
 void GameController::setGameState(GameState newState)
 {
     gameState = newState;
@@ -369,7 +373,6 @@ void GameController::botRandomShipsPlacing()
         }
     }
 
-    qDebug() << "4-палубник: " << fourPartShip.x() << ", " << fourPartShip.y();
 
     QPoint threePartShip1(-1, -1);
     QPoint threePartShip2(-1, -1);
@@ -389,7 +392,7 @@ void GameController::botRandomShipsPlacing()
                     board->setCellState(QPoint(threePartShip1.x() + 2, threePartShip1.y()), Cell::SHIP);
 
                     if (isShip(bot, 3, threePartShip1.x(), threePartShip1.y())) {
-                        qDebug() << "3-палубник(1): " << threePartShip1.x() << ", " << threePartShip1.y();
+
                         break;
                     }
                     else {
@@ -413,7 +416,7 @@ void GameController::botRandomShipsPlacing()
                     board->setCellState(QPoint(threePartShip2.x() + 2, threePartShip2.y()), Cell::SHIP);
 
                     if (isShip(bot, 3, threePartShip2.x(), threePartShip2.y())) {
-                        qDebug() << "3-палубник(2): " << threePartShip2.x() << ", " << threePartShip2.y();
+
                         break;
                     }
                     else {
@@ -445,7 +448,7 @@ void GameController::botRandomShipsPlacing()
                     board->setCellState(QPoint(twoPartShip1.x() + 1, twoPartShip1.y()), Cell::SHIP);
 
                     if (isShip(bot, 2, twoPartShip1.x(), twoPartShip1.y())) {
-                        qDebug() << "2-палубник(1): " << twoPartShip1.x() << ", " << twoPartShip1.y();
+
                         break;
                     }
                     else {
@@ -466,7 +469,7 @@ void GameController::botRandomShipsPlacing()
                     board->setCellState(QPoint(twoPartShip2.x() + 1, twoPartShip2.y()), Cell::SHIP);
 
                     if (isShip(bot, 2, twoPartShip2.x(), twoPartShip2.y())) {
-                        qDebug() << "2-палубник(2): " << twoPartShip2.x() << ", " << twoPartShip2.y();
+
                         break;
                     }
                     else {
@@ -487,7 +490,7 @@ void GameController::botRandomShipsPlacing()
                     board->setCellState(QPoint(twoPartShip3.x() + 1, twoPartShip3.y()), Cell::SHIP);
 
                     if (isShip(bot, 2, twoPartShip3.x(), twoPartShip3.y())) {
-                        qDebug() << "2-палубник(3): " << twoPartShip3.x() << ", " << twoPartShip3.y();
+
                         break;
                     }
                     else {
@@ -502,8 +505,6 @@ void GameController::botRandomShipsPlacing()
     }
 
     // генерация однопалубников - используем другой метод: простой перебор
-    board->printBoardStates();
-
     while (!checkBotShipPlacement()) {
         QPoint onePartShip(rand() % 10, rand() % 10);
 
@@ -512,15 +513,12 @@ void GameController::botRandomShipsPlacing()
 
         board->setCellState(onePartShip, Cell::SHIP);
 
-        if (!isShip(bot, 1, onePartShip.x(), onePartShip.y())) {
+        if (!isShip(bot, 1, onePartShip.x(), onePartShip.y()))
             board->setCellState(onePartShip, Cell::EMPTY);
-        } else {
-            qDebug() << "1-палубник размещен";
-        }
     }
 
-    board->printBoardStates();
-    qDebug() << "Все корабли бота расставлены!";
+    // синхронизация
+    syncBotShipsCells();
 
 }
 

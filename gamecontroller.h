@@ -46,6 +46,8 @@ public:
 
     void syncPlayerShipsCells();
 
+    void syncBotShipsCells();
+
     void setGameState(GameState newState);
 
     void botRandomShipsPlacing();

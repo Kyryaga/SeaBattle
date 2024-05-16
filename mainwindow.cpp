@@ -9,7 +9,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // ОТЛАДКА
     qDebug() << "Главное окно создано, контроллер инициализирован";
-    qDebug() << "Координаты поля игрока: " << MYFIELD_X << ", " << MYFIELD_Y;
 
     // Отрисовка фона
     QPalette pal;
@@ -64,7 +63,6 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
             if (pos.x() >= MYFIELD_X && pos.x() <= FIELD_WIDTH + MYFIELD_X
                 && pos.y() >= MYFIELD_Y && pos.y() <= FIELD_HEIGHT + MYFIELD_Y) {
-                qDebug() << "MyField" << "Coords:" << pos.x() << "," << pos.y() << getCoords(pos.x(), pos.y());
 
                 QPoint qp = getCoords(pos.x(), pos.y());
 
@@ -78,7 +76,6 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                         gameController->setPlayerCellState(qp, 2);
 
                         if (gameController->checkPlayerShipPlacement()) {
-                            gameController->printPlayerAllCellStates();
                             infoLabel->setText("Начать - ПРОБЕЛ");
                         }
                     }
