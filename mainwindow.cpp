@@ -91,6 +91,9 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                 update();
 
             }
+        } else if (gameController->getGameState() == GameState::PLAYER_TURN) {
+            qDebug() << "Ход игрока";
+            // проверка на попадание мышкой в поле бота, высчитать клетку, получить состояние клетки, если пустая - нарисовать на ней DOT
         }
     }
 }
@@ -103,6 +106,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
     QVector<Cell> currentCellsState = gameController->getPlayerAllCells();
 
+    // отрисовка поля игрока
     for (int i {0}; i < currentCellsState.size(); i++) {
         if (currentCellsState[i] == Cell::SHIP) {
             QPoint drawPoint;
@@ -121,6 +125,11 @@ void MainWindow::paintEvent(QPaintEvent *event)
             painter.drawPixmap(drawPoint, QPixmap(":images/full.png"));
         }
     }
+
+    QVector<Cell> currentCellsStateBot = gameController->getBotAllCells();
+
+    // отрисовка поля бота
+    // ...
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
