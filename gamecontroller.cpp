@@ -124,8 +124,12 @@ bool GameController::isShip(int size, int x, int y) {
         num++;
     }
 
-    if (num == size ) {
+    if (num == size) {
         if (board->getCellState(QPoint(x, y + 1)) != Cell::EMPTY)
+            return false;
+
+        if (board->getCellState(QPoint(x - 1, y - 1)) != Cell::EMPTY || board->getCellState(QPoint(x - 1, y + 1)) != Cell::EMPTY
+            || board->getCellState(QPoint(x + size, y - 1)) != Cell::EMPTY || board->getCellState(QPoint(x + size, y + 1)) != Cell::EMPTY)
             return false;
 
         return true;
@@ -140,8 +144,12 @@ bool GameController::isShip(int size, int x, int y) {
         num++;
     }
 
-    if( num == size ) {
+    if (num == size) {
         if (board->getCellState(QPoint(x + 1, y)) != Cell::EMPTY)
+            return false;
+
+        if (board->getCellState(QPoint(x - 1, y - 1)) != Cell::EMPTY || board->getCellState(QPoint(x + 1, y - 1)) != Cell::EMPTY
+            || board->getCellState(QPoint(x - 1, y + size)) != Cell::EMPTY || board->getCellState(QPoint(x + 1, y + size)) != Cell::EMPTY)
             return false;
 
         return true;

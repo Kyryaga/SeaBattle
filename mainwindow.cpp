@@ -68,17 +68,14 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                     if (gameController->getPlayerShipCellsCount() < 20) {
                         gameController->setCellState(qp, 2);
 
-                        gameController->printAllCellStates();
-
                         if (gameController->checkShipPlacement()) {
+                            gameController->printAllCellStates();
                             // но сначала расставить корабли бота, только потом можно начинать игру.
                             gameController->setGameState(GameState::PLAYER_TURN);
                         }
                     }
                 } else {
                     gameController->setCellState(qp, 0);
-
-                    gameController->printAllCellStates();
                 }
 
 
