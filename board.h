@@ -27,6 +27,7 @@ public:
 
     QVector<Ship *> getFlot();
     void prettyPrintFlot();
+    void clear();
 
 private:
     QVector<Cell> cells;

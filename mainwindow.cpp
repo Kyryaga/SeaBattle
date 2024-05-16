@@ -140,6 +140,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 // синхронизация кораблей и клеток
                 gameController->syncPlayerShipsCells();
 
+                // расстановка кораблей ботом
+                gameController->botRandomShipsPlacing();
+
                 // смена состояния на ХОД ИГРОКА
                 gameController->setGameState(GameState::PLAYER_TURN);
 

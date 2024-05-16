@@ -338,6 +338,192 @@ void GameController::setGameState(GameState newState)
     gameState = newState;
 }
 
+// только горизонтальная ориетация
+void GameController::botRandomShipsPlacing()
+{
+    Board* board = bot->getBoard();
+    srand(time(NULL));
+
+
+    // берем 4-х палубник, генерим для него позицию, проверяем, можно ли поставить его
+    QPoint fourPartShip;
+
+    while (true) {
+        fourPartShip.setX(rand() % 10);
+        fourPartShip.setY(rand() % 10);
+
+        if (fourPartShip.x() < 7) {
+            board->setCellState(QPoint(fourPartShip.x(), fourPartShip.y()), Cell::SHIP);
+            board->setCellState(QPoint(fourPartShip.x() + 1, fourPartShip.y()), Cell::SHIP);
+            board->setCellState(QPoint(fourPartShip.x() + 2, fourPartShip.y()), Cell::SHIP);
+            board->setCellState(QPoint(fourPartShip.x() + 3, fourPartShip.y()), Cell::SHIP);
+
+            if (isShip(bot, 4, fourPartShip.x(), fourPartShip.y()))
+                break;
+            else {
+                board->setCellState(QPoint(fourPartShip.x(), fourPartShip.y()), Cell::EMPTY);
+                board->setCellState(QPoint(fourPartShip.x() + 1, fourPartShip.y()), Cell::EMPTY);
+                board->setCellState(QPoint(fourPartShip.x() + 2, fourPartShip.y()), Cell::EMPTY);
+                board->setCellState(QPoint(fourPartShip.x() + 3, fourPartShip.y()), Cell::EMPTY);
+            }
+        }
+    }
+
+    qDebug() << "4-палубник: " << fourPartShip.x() << ", " << fourPartShip.y();
+
+    QPoint threePartShip1(-1, -1);
+    QPoint threePartShip2(-1, -1);
+
+    for (int i {0}; i < 2; i++) {
+        while (true) {
+            if (threePartShip1.x() == -1) {
+                threePartShip1.setX(rand() % 10);
+                threePartShip1.setY(rand() % 10);
+
+                if (threePartShip1.x() < 8 && board->getCellState(threePartShip1) == Cell::EMPTY
+                    && board->getCellState(QPoint(threePartShip1.x() + 1, threePartShip1.y())) == Cell::EMPTY
+                    && board->getCellState(QPoint(threePartShip1.x() + 2, threePartShip1.y())) == Cell::EMPTY) {
+
+                    board->setCellState(QPoint(threePartShip1.x(), threePartShip1.y()), Cell::SHIP);
+                    board->setCellState(QPoint(threePartShip1.x() + 1, threePartShip1.y()), Cell::SHIP);
+                    board->setCellState(QPoint(threePartShip1.x() + 2, threePartShip1.y()), Cell::SHIP);
+
+                    if (isShip(bot, 3, threePartShip1.x(), threePartShip1.y())) {
+                        qDebug() << "3-палубник(1): " << threePartShip1.x() << ", " << threePartShip1.y();
+                        break;
+                    }
+                    else {
+                        board->setCellState(QPoint(threePartShip1.x(), threePartShip1.y()), Cell::EMPTY);
+                        board->setCellState(QPoint(threePartShip1.x() + 1, threePartShip1.y()), Cell::EMPTY);
+                        board->setCellState(QPoint(threePartShip1.x() + 2, threePartShip1.y()), Cell::EMPTY);
+                    }
+                }
+
+                threePartShip1.setX(-1);
+            } else {
+                threePartShip2.setX(rand() % 10);
+                threePartShip2.setY(rand() % 10);
+
+                if (threePartShip2.x() < 8 && board->getCellState(threePartShip2) == Cell::EMPTY
+                    && board->getCellState(QPoint(threePartShip2.x() + 1, threePartShip2.y())) == Cell::EMPTY
+                    && board->getCellState(QPoint(threePartShip2.x() + 2, threePartShip2.y())) == Cell::EMPTY) {
+
+                    board->setCellState(QPoint(threePartShip2.x(), threePartShip2.y()), Cell::SHIP);
+                    board->setCellState(QPoint(threePartShip2.x() + 1, threePartShip2.y()), Cell::SHIP);
+                    board->setCellState(QPoint(threePartShip2.x() + 2, threePartShip2.y()), Cell::SHIP);
+
+                    if (isShip(bot, 3, threePartShip2.x(), threePartShip2.y())) {
+                        qDebug() << "3-палубник(2): " << threePartShip2.x() << ", " << threePartShip2.y();
+                        break;
+                    }
+                    else {
+                        board->setCellState(QPoint(threePartShip2.x(), threePartShip2.y()), Cell::EMPTY);
+                        board->setCellState(QPoint(threePartShip2.x() + 1, threePartShip2.y()), Cell::EMPTY);
+                        board->setCellState(QPoint(threePartShip2.x() + 2, threePartShip2.y()), Cell::EMPTY);
+                    }
+                }
+
+                threePartShip2.setX(-1);
+            }
+        }
+    }
+
+    QPoint twoPartShip1(-1, -1);
+    QPoint twoPartShip2(-1, -1);
+    QPoint twoPartShip3(-1, -1);
+
+    for (int i {0}; i < 3; i++) {
+        while (true) {
+            if (twoPartShip1.x() == -1) {
+                twoPartShip1.setX(rand() % 10);
+                twoPartShip1.setY(rand() % 10);
+
+                if (twoPartShip1.x() < 9 && board->getCellState(twoPartShip1) == Cell::EMPTY
+                    && board->getCellState(QPoint(twoPartShip1.x() + 1, twoPartShip1.y())) == Cell::EMPTY) {
+
+                    board->setCellState(QPoint(twoPartShip1.x(), twoPartShip1.y()), Cell::SHIP);
+                    board->setCellState(QPoint(twoPartShip1.x() + 1, twoPartShip1.y()), Cell::SHIP);
+
+                    if (isShip(bot, 2, twoPartShip1.x(), twoPartShip1.y())) {
+                        qDebug() << "2-палубник(1): " << twoPartShip1.x() << ", " << twoPartShip1.y();
+                        break;
+                    }
+                    else {
+                        board->setCellState(QPoint(twoPartShip1.x(), twoPartShip1.y()), Cell::EMPTY);
+                        board->setCellState(QPoint(twoPartShip1.x() + 1, twoPartShip1.y()), Cell::EMPTY);
+                    }
+                }
+
+                twoPartShip1.setX(-1);
+            } else if (twoPartShip2.x() == - 1){
+                twoPartShip2.setX(rand() % 10);
+                twoPartShip2.setY(rand() % 10);
+
+                if (twoPartShip2.x() < 9 && board->getCellState(twoPartShip2) == Cell::EMPTY
+                    && board->getCellState(QPoint(twoPartShip2.x() + 1, twoPartShip2.y())) == Cell::EMPTY) {
+
+                    board->setCellState(QPoint(twoPartShip2.x(), twoPartShip2.y()), Cell::SHIP);
+                    board->setCellState(QPoint(twoPartShip2.x() + 1, twoPartShip2.y()), Cell::SHIP);
+
+                    if (isShip(bot, 2, twoPartShip2.x(), twoPartShip2.y())) {
+                        qDebug() << "2-палубник(2): " << twoPartShip2.x() << ", " << twoPartShip2.y();
+                        break;
+                    }
+                    else {
+                        board->setCellState(QPoint(twoPartShip2.x(), twoPartShip2.y()), Cell::EMPTY);
+                        board->setCellState(QPoint(twoPartShip2.x() + 1, twoPartShip2.y()), Cell::EMPTY);
+                    }
+                }
+
+                twoPartShip2.setX(-1);
+            } else {
+                twoPartShip3.setX(rand() % 10);
+                twoPartShip3.setY(rand() % 10);
+
+                if (twoPartShip3.x() < 9 && board->getCellState(twoPartShip3) == Cell::EMPTY
+                    && board->getCellState(QPoint(twoPartShip3.x() + 1, twoPartShip3.y())) == Cell::EMPTY) {
+
+                    board->setCellState(QPoint(twoPartShip3.x(), twoPartShip3.y()), Cell::SHIP);
+                    board->setCellState(QPoint(twoPartShip3.x() + 1, twoPartShip3.y()), Cell::SHIP);
+
+                    if (isShip(bot, 2, twoPartShip3.x(), twoPartShip3.y())) {
+                        qDebug() << "2-палубник(3): " << twoPartShip3.x() << ", " << twoPartShip3.y();
+                        break;
+                    }
+                    else {
+                        board->setCellState(QPoint(twoPartShip3.x(), twoPartShip3.y()), Cell::EMPTY);
+                        board->setCellState(QPoint(twoPartShip3.x() + 1, twoPartShip3.y()), Cell::EMPTY);
+                    }
+                }
+
+                twoPartShip3.setX(-1);
+            }
+        }
+    }
+
+    // генерация однопалубников - используем другой метод: простой перебор
+    board->printBoardStates();
+
+    while (!checkBotShipPlacement()) {
+        QPoint onePartShip(rand() % 10, rand() % 10);
+
+        if (board->getCellState(onePartShip) != Cell::EMPTY)
+            continue;
+
+        board->setCellState(onePartShip, Cell::SHIP);
+
+        if (!isShip(bot, 1, onePartShip.x(), onePartShip.y())) {
+            board->setCellState(onePartShip, Cell::EMPTY);
+        } else {
+            qDebug() << "1-палубник размещен";
+        }
+    }
+
+    board->printBoardStates();
+    qDebug() << "Все корабли бота расставлены!";
+
+}
+
 
 
 

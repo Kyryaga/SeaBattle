@@ -2,6 +2,7 @@
 #define GAMECONTROLLER_H
 
 #include "player.h"
+#include <time.h>
 
 enum GameState {
     SHIPS_PLACING,
@@ -46,6 +47,8 @@ public:
     void syncPlayerShipsCells();
 
     void setGameState(GameState newState);
+
+    void botRandomShipsPlacing();
 
 private:
     GameState gameState;

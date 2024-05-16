@@ -55,3 +55,10 @@ void Board::prettyPrintFlot()
         qDebug() << "w: " << ship->getWeight() << ", " << ship->getCoords();
     }
 }
+
+void Board::clear()
+{
+    for (Cell &cell : cells) {
+        cell = Cell::EMPTY;
+    }
+}
