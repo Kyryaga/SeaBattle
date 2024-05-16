@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>background.png</file>
+        <file>dot.png</file>
+        <file>full.png</file>
+        <file>half.png</file>
+    </qresource>
+</RCC>
