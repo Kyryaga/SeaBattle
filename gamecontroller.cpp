@@ -16,7 +16,7 @@ GameController::~GameController()
 }
 
 
-GameController::GameState GameController::getGameState()
+GameState GameController::getGameState()
 {
     return gameState;
 }
@@ -67,3 +67,103 @@ QVector<Cell> GameController::getAllCells()
 {
     return player->getBoard()->getCells();
 }
+
+bool GameController::checkShipPlacement()
+{
+    // проверка на кол-во кораблей, должно быть 20
+    if (getPlayerShipCellsCount() == 20) {
+        if (shipNum(1) == 4 &&
+            shipNum(2) == 3 &&
+            shipNum(3) == 2 &&
+            shipNum(4) == 1) {
+            qDebug() << "КОРРЕКТНАЯ РАССТАНОВКА КОРАБЛЕЙ\n";
+
+            return 1;
+        } else {
+            return 0;
+        }
+    } else {
+        return 0;
+    }
+}
+
+
+int GameController::shipNum(int size) {
+    int shipNumber = 0;
+
+    for(int i = 0; i < 10; i++)
+        for(int j = 0; j < 10; j++)
+            if(isShip(size, j, i))
+                shipNumber++;
+
+    return shipNumber;
+}
+
+
+bool GameController::isShip(int size, int x, int y) {
+    Board* board = player->getBoard();
+
+    // left field !clear
+    if (x > 0 && board->getCellState(QPoint(x - 1, y)) != Cell::EMPTY)
+        return false;
+
+    // up field !clear
+    if (y > 0 && board->getCellState(QPoint(x, y - 1)) != Cell::EMPTY)
+        return false;
+
+    // no ship here
+    if (board->getCellState(QPoint(x, y)) == Cell::EMPTY)
+        return false;
+
+    int tmp = x;
+    int num = 0;
+
+    // checking in right direction
+    while (board->getCellState(QPoint(tmp, y)) != Cell::EMPTY && tmp < 10) {
+        tmp++;
+        num++;
+    }
+
+    if (num == size ) {
+        if (board->getCellState(QPoint(x, y + 1)) != Cell::EMPTY)
+            return false;
+
+        return true;
+    }
+
+    tmp = y;
+    num = 0;
+
+    // checking in down direction
+    while (board->getCellState(QPoint(x, tmp)) != Cell::EMPTY && tmp < 10) {
+        tmp++;
+        num++;
+    }
+
+    if( num == size ) {
+        if (board->getCellState(QPoint(x + 1, y)) != Cell::EMPTY)
+            return false;
+
+        return true;
+    }
+
+    return false;
+}
+
+void GameController::setGameState(GameState newState)
+{
+    gameState = newState;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

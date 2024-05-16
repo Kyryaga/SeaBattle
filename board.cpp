@@ -16,6 +16,10 @@ void Board::setCellState(QPoint point, Cell state)
 
 Cell Board::getCellState(QPoint point)
 {
+    if (point.x() > 9 || point.y() > 9) {
+        return Cell::EMPTY;
+    }
+
     return cells[point.x() + 10 * point.y()];
 }
 

@@ -50,7 +50,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     else if (event->button() == Qt::LeftButton) {
 
         // если состояние = расстановка кораблей
-        if (gameController->getGameState() == GameController::GameState::SHIPS_PLACING) {
+        if (gameController->getGameState() == GameState::SHIPS_PLACING) {
             QPointF pos = event->position();
 
             if (pos.x() >= MYFIELD_X && pos.x() <= FIELD_WIDTH + MYFIELD_X
@@ -69,6 +69,11 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                         gameController->setCellState(qp, 2);
 
                         gameController->printAllCellStates();
+
+                        if (gameController->checkShipPlacement()) {
+                            // но сначала расставить корабли бота, только потом можно начинать игру.
+                            gameController->setGameState(GameState::PLAYER_TURN);
+                        }
                     }
                 } else {
                     gameController->setCellState(qp, 0);

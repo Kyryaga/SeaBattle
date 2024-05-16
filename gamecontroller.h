@@ -3,17 +3,17 @@
 
 #include "player.h"
 
+enum GameState {
+    SHIPS_PLACING,
+    PLAYER_TURN,
+    ENEMY_TURN
+};
+
 class GameController
 {
 public:
     GameController();
     ~GameController();
-
-    enum GameState {
-        SHIPS_PLACING,
-        PLAYER_TURN,
-        ENEMY_TURN
-    };
 
     GameState getGameState();
 
@@ -28,6 +28,16 @@ public:
     void printAllCellStates();
 
     QVector<Cell> getAllCells();
+
+    // начало проверки размещения кораблей
+    bool checkShipPlacement();
+
+    int shipNum(int size);
+
+    bool isShip(int size, int x, int y);
+    // окончание проверки размещения кораблей
+
+    void setGameState(GameState newState);
 
 private:
     GameState gameState;
