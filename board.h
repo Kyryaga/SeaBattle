@@ -4,6 +4,7 @@
 #include <QVector>
 #include "ship.h"
 
+
 class Board
 {
 public:
@@ -17,6 +18,9 @@ public:
     };
 
     void addShip(Ship* ship);
+    void setCellState(QPoint point, Cell state);
+    Cell getCellState(QPoint point);
+    void printBoardStates();
 
 private:
     QVector<Cell> cells;

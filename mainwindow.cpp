@@ -38,15 +38,16 @@ QPoint MainWindow::getCoords(int x, int y)
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-    // обработка нажатия правой кнопкой мыши
+    // обработка нажатия правой кнопкой мыши - ОТЛАДКА
     if (event->button() == Qt::RightButton) {
         QPoint pos = event->pos();
 
         qDebug() << "Mouse click at (" << pos.x() << "," << pos.y() << ")";
 
-    } else if (event->button() == Qt::LeftButton) {
+    }
 
-        // проверяем состояние игры
+    // нажатие левой кнопкой мыши
+    else if (event->button() == Qt::LeftButton) {
 
         // если состояние = расстановка кораблей
         if (gameController->getGameState() == GameController::GameState::SHIPS_PLACING) {
@@ -63,11 +64,11 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                 if (qp.y() == 10)
                     qp.setY(9);
 
-                // проверяем, пуста ли клетка
-                // если пуста ...
+
 
                 points.append(qp);
-                update(); // перерисовка полей(вызов функции paintEvent)
+
+                update();
             }
         }
     }

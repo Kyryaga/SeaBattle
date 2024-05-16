@@ -2,6 +2,10 @@
 
 Player::Player() {
     board = new Board();
+
+
+    board->setCellState(QPoint(9, 1), Board::Cell::SHIP);
+    board->printBoardStates();
 }
 
 Player::~Player() {}
