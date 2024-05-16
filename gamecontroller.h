@@ -21,20 +21,28 @@ public:
 
     int getPlayerShipCellsCount();
 
-    bool isEmptyCell(QPoint point);
+    int getBotShipCellsCount();
 
-    void setCellState(QPoint point, int stateNum);
+    bool isPlayerEmptyCell(QPoint point);
 
-    void printAllCellStates();
+    bool isBotEmptyCell(QPoint point);
 
-    QVector<Cell> getAllCells();
+    void setPlayerCellState(QPoint point, int stateNum);
+
+    void setBotCellState(QPoint point, int stateNum);
+
+    void printPlayerAllCellStates();
+
+    void printBotAllCellStates();
+
+    QVector<Cell> getPlayerAllCells();
+
+    QVector<Cell> getBotAllCells();
 
     // начало проверки размещения кораблей
-    bool checkShipPlacement();
+    bool checkPlayerShipPlacement();
 
-    int shipNum(int size);
-
-    bool isShip(int size, int x, int y);
+    bool checkBotShipPlacement();
     // окончание проверки размещения кораблей
 
     void setGameState(GameState newState);

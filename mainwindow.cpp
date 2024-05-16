@@ -64,18 +64,20 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                 if (qp.y() == 10)
                     qp.setY(9);
 
-                if (gameController->isEmptyCell(qp)) {
+                if (gameController->isPlayerEmptyCell(qp)) {
                     if (gameController->getPlayerShipCellsCount() < 20) {
-                        gameController->setCellState(qp, 2);
+                        gameController->setPlayerCellState(qp, 2);
 
-                        if (gameController->checkShipPlacement()) {
-                            gameController->printAllCellStates();
-                            // но сначала расставить корабли бота, только потом можно начинать игру.
-                            gameController->setGameState(GameState::PLAYER_TURN);
+                        if (gameController->checkPlayerShipPlacement()) {
+                            gameController->printPlayerAllCellStates();
+
+
+
+                            // gameController->setGameState(GameState::PLAYER_TURN);
                         }
                     }
                 } else {
-                    gameController->setCellState(qp, 0);
+                    gameController->setPlayerCellState(qp, 0);
                 }
 
 
@@ -92,7 +94,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
     Q_UNUSED(event);
     QPainter painter(this);
 
-    QVector<Cell> currentCellsState = gameController->getAllCells();
+    QVector<Cell> currentCellsState = gameController->getPlayerAllCells();
 
     for (int i {0}; i < currentCellsState.size(); i++) {
         if (currentCellsState[i] == Cell::SHIP) {

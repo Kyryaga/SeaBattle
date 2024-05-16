@@ -27,11 +27,12 @@ void GameController::createFlots()
     bot->createFlot();
 }
 
-int GameController::getPlayerShipCellsCount()
+
+int getShipCellsCount(Player* somePlayer)
 {
     int count = 0;
 
-    Board* board = player->getBoard();
+    Board* board = somePlayer->getBoard();
 
     for (int i {0}; i < 10; i++) {
         for (int j {0}; j < 10; j++) {
@@ -43,65 +44,85 @@ int GameController::getPlayerShipCellsCount()
     return count;
 }
 
-bool GameController::isEmptyCell(QPoint point)
+int GameController::getPlayerShipCellsCount()
 {
-    Board* board = player->getBoard();
+    return getShipCellsCount(player);
+}
+
+int GameController::getBotShipCellsCount()
+{
+    return getShipCellsCount(bot);
+}
+
+
+bool isEmptyCell(Player* somePlayer, QPoint point)
+{
+    Board* board = somePlayer->getBoard();
 
     return board->getCellState(point) == Cell::EMPTY;
 }
 
-
-void GameController::setCellState(QPoint point, int stateNum)
+bool GameController::isPlayerEmptyCell(QPoint point)
 {
-    Board* board = player->getBoard();
+    return isEmptyCell(player, point);
+}
+
+bool GameController::isBotEmptyCell(QPoint point)
+{
+    return isEmptyCell(bot, point);
+}
+
+
+void setCellState(Player* somePlayer, QPoint point, int stateNum)
+{
+    Board* board = somePlayer->getBoard();
 
     board->setCellState(point, static_cast<Cell>(stateNum));
 }
 
-void GameController::printAllCellStates()
+void GameController::setBotCellState(QPoint point, int stateNum)
 {
-    player->getBoard()->printBoardStates();
+    return setCellState(bot, point, stateNum);
 }
 
-QVector<Cell> GameController::getAllCells()
+void GameController::setPlayerCellState(QPoint point, int stateNum)
 {
-    return player->getBoard()->getCells();
+    return setCellState(player, point, stateNum);
 }
 
-bool GameController::checkShipPlacement()
+void printAllCellStates(Player* somePlayer)
 {
-    // проверка на кол-во кораблей, должно быть 20
-    if (getPlayerShipCellsCount() == 20) {
-        if (shipNum(1) == 4 &&
-            shipNum(2) == 3 &&
-            shipNum(3) == 2 &&
-            shipNum(4) == 1) {
-            qDebug() << "КОРРЕКТНАЯ РАССТАНОВКА КОРАБЛЕЙ\n";
+    somePlayer->getBoard()->printBoardStates();
+}
 
-            return 1;
-        } else {
-            return 0;
-        }
-    } else {
-        return 0;
-    }
+void GameController::printPlayerAllCellStates()
+{
+    printAllCellStates(player);
+}
+
+void GameController::printBotAllCellStates()
+{
+    printAllCellStates(bot);
+}
+
+QVector<Cell> getAllCells(Player* somePlayer)
+{
+    return somePlayer->getBoard()->getCells();
+}
+
+QVector<Cell> GameController::getPlayerAllCells()
+{
+    return getAllCells(player);
+}
+
+QVector<Cell> GameController::getBotAllCells()
+{
+    return getAllCells(bot);
 }
 
 
-int GameController::shipNum(int size) {
-    int shipNumber = 0;
-
-    for(int i = 0; i < 10; i++)
-        for(int j = 0; j < 10; j++)
-            if(isShip(size, j, i))
-                shipNumber++;
-
-    return shipNumber;
-}
-
-
-bool GameController::isShip(int size, int x, int y) {
-    Board* board = player->getBoard();
+bool isShip(Player* somePlayer, int size, int x, int y) {
+    Board* board = somePlayer->getBoard();
 
     // left field !clear
     if (x > 0 && board->getCellState(QPoint(x - 1, y)) != Cell::EMPTY)
@@ -156,6 +177,47 @@ bool GameController::isShip(int size, int x, int y) {
     }
 
     return false;
+}
+
+int shipNum(Player* somePlayer, int size) {
+    int shipNumber = 0;
+
+    for(int i = 0; i < 10; i++)
+        for(int j = 0; j < 10; j++)
+            if(isShip(somePlayer, size, j, i))
+                shipNumber++;
+
+    return shipNumber;
+}
+
+bool checkShipPlacement(Player* somePlayer)
+{
+    // проверка на кол-во кораблей, должно быть 20
+    if (getShipCellsCount(somePlayer) == 20) {
+        if (shipNum(somePlayer, 1) == 4 &&
+            shipNum(somePlayer, 2) == 3 &&
+            shipNum(somePlayer, 3) == 2 &&
+            shipNum(somePlayer, 4) == 1) {
+            qDebug() << "КОРРЕКТНАЯ РАССТАНОВКА КОРАБЛЕЙ\n";
+
+            return 1;
+        } else {
+            return 0;
+        }
+    } else {
+        return 0;
+    }
+}
+
+
+bool GameController::checkPlayerShipPlacement()
+{
+    return checkShipPlacement(player);
+}
+
+bool GameController::checkBotShipPlacement()
+{
+    return checkShipPlacement(bot);
 }
 
 void GameController::setGameState(GameState newState)
