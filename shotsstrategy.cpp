@@ -2,16 +2,15 @@
 
 
 
-int ManualShotStrategy::shot(Player *player, QPoint point)
+QPoint ManualShotStrategy::shot(QPoint point)
 {
-    qDebug() << "Ручной выстрел по координатам: " << point.x() << " " << point.y();
-
-    return 0;
+    return point;
 }
 
-int FullRandomShotStrategy::shot(Player *player, QPoint point)
+QPoint FullRandomShotStrategy::shot(QPoint point)
 {
-    qDebug() << "FULL рандомный выстрел";
+    qDebug() << "FULL рандомный выстрел(обычно для бота)";
+    srand(time(NULL));
 
-    return 0;
+    return QPoint(rand() % 10, rand() % 10);
 }

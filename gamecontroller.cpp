@@ -540,14 +540,20 @@ void GameController::botRandomShipsPlacing()
 
 void GameController::playerShot(QPoint point)
 {
-    int shotStatus = player->performShot(bot, point);
+    Board* board = bot->getBoard();
+    QPoint shotedPoint = player->performShot(point);
 
-    qDebug() << "Статус выстрела: " << shotStatus;
+    qDebug() << "Статус выстрела: " << shotedPoint;
+
+    if (board->getCellState(shotedPoint) == Cell::EMPTY) {
+        board->setCellState(shotedPoint, Cell::DOT);
+    }
+
 }
 
 void GameController::botShot()
 {
-    int shotStatus = bot->performShot(player);
+    QPoint shotStatus = bot->performShot();
 
     qDebug() << "Статус выстрела: " << shotStatus;
 }

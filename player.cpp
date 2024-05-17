@@ -34,9 +34,9 @@ Board *Player::getBoard()
     return board;
 }
 
-int Player::performShot(Player *player, QPoint point)
+QPoint Player::performShot(QPoint point)
 {
-    return shotS->shot(player, point);
+    return shotS->shot(point);
 }
 
 

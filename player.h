@@ -18,7 +18,7 @@ public:
 
     Board *getBoard();
 
-    int performShot(Player* player, QPoint point = QPoint(-1, -1));
+    QPoint performShot(QPoint point = QPoint(-1, -1));
 
 protected:
     Board* board;

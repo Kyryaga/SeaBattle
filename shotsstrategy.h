@@ -3,23 +3,23 @@
 #include <QPoint>
 #include <QDebug>
 
-class Player;
 
 class ShotsStrategy
 {
 public:
-    virtual int shot(Player* player, QPoint point = QPoint(0, 0)) = 0;
+    // функция будет просто возвращать QPoint, а в gameController уже будет все обрабатываться
+    virtual QPoint shot(QPoint point = QPoint(0, 0)) = 0;
 };
 
 
 class ManualShotStrategy : public ShotsStrategy {
 public:
-    int shot(Player *player, QPoint point = QPoint(0, 0)) override;
+    QPoint shot(QPoint point = QPoint(0, 0)) override;
 };
 
 class FullRandomShotStrategy : public ShotsStrategy {
 public:
-    int shot(Player *player, QPoint point = QPoint(0, 0)) override;
+    QPoint shot(QPoint point = QPoint(0, 0)) override;
 };
 
 #endif // SHOTSSTRATEGY_H
