@@ -580,15 +580,34 @@ void GameController::takeShot(Player* whoShots, Player* whoseField, QPoint point
         } else {
             // убили
             // установка всех клеток, пренадлежащих кораблю в статус DEAD
-            if (board->getCellState(QPoint(shotedShip->getCoords().x() + 1, shotedShip->getCoords().y())) == Cell::DAMAGED) {
+            if (board->getCellState(QPoint(shotedShip->getCoords().x() + 1, shotedShip->getCoords().y())) == Cell::DAMAGED || shotedShip->getWeight() == 1) {
                 // ориентация горизонтальная
                 for (int i {0}; i < shotedShip->getWeight(); i++) {
                     board->setCellState(QPoint(shotedShip->getCoords().x() + i, shotedShip->getCoords().y()), Cell::DEAD);
                 }
+
+                // расстановка точек вокруг мертвого корабля по горизонтали
+                for (int i {-1}; i < shotedShip->getWeight() + 1; i++) {
+                    board->setCellState(QPoint(shotedShip->getCoords().x() + i, shotedShip->getCoords().y() + 1), Cell::DOT);
+                    board->setCellState(QPoint(shotedShip->getCoords().x() + i, shotedShip->getCoords().y() - 1), Cell::DOT);
+                }
+
+                board->setCellState(QPoint(shotedShip->getCoords().x() - 1, shotedShip->getCoords().y()), Cell::DOT);
+                board->setCellState(QPoint(shotedShip->getCoords().x() + shotedShip->getWeight(), shotedShip->getCoords().y()), Cell::DOT);
+
             } else {
                 for (int i {0}; i < shotedShip->getWeight(); i++) {
                     board->setCellState(QPoint(shotedShip->getCoords().x(), shotedShip->getCoords().y() + i), Cell::DEAD);
                 }
+
+                // расстановка точек вокруг мертвого корабля по вертикали
+                for (int i {-1}; i < shotedShip->getWeight() + 1; i++) {
+                    board->setCellState(QPoint(shotedShip->getCoords().x() + 1, shotedShip->getCoords().y() + i), Cell::DOT);
+                    board->setCellState(QPoint(shotedShip->getCoords().x() - 1, shotedShip->getCoords().y() + i), Cell::DOT);
+                }
+
+                board->setCellState(QPoint(shotedShip->getCoords().x(), shotedShip->getCoords().y() - 1), Cell::DOT);
+                board->setCellState(QPoint(shotedShip->getCoords().x(), shotedShip->getCoords().y() + shotedShip->getWeight()), Cell::DOT);
             }
 
             qDebug() << "Убили" << shotedShip->getWeight() << "палубник";
