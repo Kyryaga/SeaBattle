@@ -62,3 +62,54 @@ void Board::clear()
         cell = Cell::EMPTY;
     }
 }
+
+Ship *Board::getShipByCell(QPoint point)
+{
+    // получаем корабль по клетке
+    if (getCellState(point) != Cell::SHIP) {
+        qDebug() << "В ФУНКЦИЮ getShipByCell передана клетка без корабля!";
+        return nullptr;
+    }
+
+
+    // проверка на то, что мы как раз тыкнули на нос корабля
+    for (Ship* ship : flot) {
+        if (ship->getCoords() == point)
+            return ship;
+    }
+
+    if (getCellState(QPoint(point.x() - 1, point.y())) == Cell::SHIP || getCellState(QPoint(point.x() - 1, point.y())) == Cell::DAMAGED) {
+        // значит нос корабля слева
+
+        while (true) {
+            point = QPoint(point.x() - 1, point.y());
+
+            for (Ship* ship : flot) {
+                if (ship->getCoords() == point)
+                    return ship;
+            }
+        }
+    } else {
+        // значит нос корабля сверху
+        point = QPoint(point.x(), point.y() - 1);
+
+        for (Ship* ship : flot) {
+            if (ship->getCoords() == point)
+                return ship;
+        }
+    }
+
+    qDebug() << "Не нашел корабль..";
+    return nullptr;
+}
+
+
+
+
+
+
+
+
+
+
+

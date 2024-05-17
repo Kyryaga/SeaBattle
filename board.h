@@ -9,7 +9,8 @@ enum Cell {
     EMPTY,
     DOT,
     SHIP,
-    DEAD
+    DEAD,
+    DAMAGED
 };
 
 
@@ -28,6 +29,8 @@ public:
     QVector<Ship *> getFlot();
     void prettyPrintFlot();
     void clear();
+
+    Ship *getShipByCell(QPoint point);
 
 private:
     QVector<Cell> cells;

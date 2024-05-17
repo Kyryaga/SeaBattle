@@ -52,6 +52,9 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
         qDebug() << "Mouse click at (" << pos.x() << "," << pos.y() << ")";
 
+        qDebug() << "\nПоле бота:";
+        gameController->printBotAllCellStates();
+
     }
 
     // нажатие левой кнопкой мыши
@@ -154,6 +157,36 @@ void MainWindow::paintEvent(QPaintEvent *event)
             }
 
             painter.drawPixmap(drawPoint, QPixmap(":images/dot.png"));
+        } else if (currentCellsStateBot[i] == Cell::DAMAGED) {
+            QPoint drawPoint;
+
+            int x = i % 10;
+            int y = i / 10;
+
+            if (x < 5 && y < 5) {
+                drawPoint.setX(ENEMYFIELD_X + (x * CELL_SIZE));
+                drawPoint.setY(ENEMYFIELD_Y + (y * CELL_SIZE));
+            } else {
+                drawPoint.setX(ENEMYFIELD_HALF_X + ((x - 5) * CELL_SIZE));
+                drawPoint.setY(ENEMYFIELD_HALF_Y + ((y - 5) * CELL_SIZE));
+            }
+
+            painter.drawPixmap(drawPoint, QPixmap(":images/half.png"));
+        } else if (currentCellsStateBot[i] == Cell::DEAD) {
+            QPoint drawPoint;
+
+            int x = i % 10;
+            int y = i / 10;
+
+            if (x < 5 && y < 5) {
+                drawPoint.setX(ENEMYFIELD_X + (x * CELL_SIZE));
+                drawPoint.setY(ENEMYFIELD_Y + (y * CELL_SIZE));
+            } else {
+                drawPoint.setX(ENEMYFIELD_HALF_X + ((x - 5) * CELL_SIZE));
+                drawPoint.setY(ENEMYFIELD_HALF_Y + ((y - 5) * CELL_SIZE));
+            }
+
+            painter.drawPixmap(drawPoint, QPixmap(":images/full.png"));
         }
     }
 }

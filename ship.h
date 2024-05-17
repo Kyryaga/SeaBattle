@@ -9,16 +9,18 @@ class Ship
 protected:
     int weight;
     QPoint coords;
-    QVector<bool> shipPartsState;
+    int shipHealth;
     bool orientation; // 1 - horizontal, 0 - vetrical
 
 public:
     Ship() {};
 
     int getWeight();
-    QVector<bool> getShipPartsState();
     void setCoords(QPoint point);
+    int getHealth();
     QPoint getCoords();
+
+    void shipDamage();
 };
 
 
@@ -27,9 +29,7 @@ public:
     OnePartShip() {
         weight = 1;
 
-        for (int i {0}; i < weight; i++) {
-            shipPartsState.push_back(1);
-        }
+        shipHealth = weight;
     }
 };
 
@@ -39,9 +39,7 @@ public:
     TwoPartShip() {
         weight = 2;
 
-        for (int i {0}; i < weight; i++) {
-            shipPartsState.push_back(1);
-        }
+        shipHealth = weight;
     }
 };
 
@@ -51,9 +49,7 @@ public:
     ThreePartShip() {
         weight = 3;
 
-        for (int i {0}; i < weight; i++) {
-            shipPartsState.push_back(1);
-        }
+        shipHealth = weight;
     }
 };
 
@@ -63,9 +59,7 @@ public:
     FourPartShip() {
         weight = 4;
 
-        for (int i {0}; i < weight; i++) {
-            shipPartsState.push_back(1);
-        }
+        shipHealth = weight;
     }
 };
 

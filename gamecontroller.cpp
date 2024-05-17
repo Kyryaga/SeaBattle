@@ -547,6 +547,37 @@ void GameController::playerShot(QPoint point)
 
     if (board->getCellState(shotedPoint) == Cell::EMPTY) {
         board->setCellState(shotedPoint, Cell::DOT);
+    } else if (board->getCellState(shotedPoint) == Cell::SHIP) {
+        // обработка попадания по кораблю
+        // если корабль подбили - поставить Cell::DAMAGED, если убили - DEAD
+
+        Ship* shotedShip = board->getShipByCell(shotedPoint);
+        shotedShip->shipDamage();
+
+        int shipHealth = shotedShip->getHealth();
+
+        board->setCellState(shotedPoint, Cell::DAMAGED);
+
+        if (shipHealth != 0) {
+            // не добили
+            qDebug() << "Подбили" << shotedShip->getWeight() << "палубник";
+        } else {
+            // убили
+            // установка всех клеток, пренадлежащих кораблю в статус DEAD
+            if (board->getCellState(QPoint(shotedShip->getCoords().x() + 1, shotedShip->getCoords().y())) == Cell::DAMAGED) {
+                // ориентация горизонтальная
+                for (int i {0}; i < shotedShip->getWeight(); i++) {
+                    board->setCellState(QPoint(shotedShip->getCoords().x() + i, shotedShip->getCoords().y()), Cell::DEAD);
+                }
+            } else {
+                for (int i {0}; i < shotedShip->getWeight(); i++) {
+                    board->setCellState(QPoint(shotedShip->getCoords().x(), shotedShip->getCoords().y() + i), Cell::DEAD);
+                }
+            }
+
+            qDebug() << "Убили" << shotedShip->getWeight() << "палубник";
+
+        }
     }
 
 }

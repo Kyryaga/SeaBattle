@@ -6,17 +6,22 @@ int Ship::getWeight()
     return weight;
 }
 
-QVector<bool> Ship::getShipPartsState()
-{
-    return shipPartsState;
-}
-
 void Ship::setCoords(QPoint point)
 {
     coords = point;
 }
 
+int Ship::getHealth()
+{
+    return shipHealth;
+}
+
 QPoint Ship::getCoords()
 {
     return coords;
+}
+
+void Ship::shipDamage()
+{
+    shipHealth--;
 }
