@@ -9,6 +9,7 @@
 #include <QImage>
 #include <QVector>
 #include <QKeyEvent>
+#include <QApplication>
 
 class MainWindow : public QMainWindow
 {

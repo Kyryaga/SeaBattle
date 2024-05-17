@@ -2,7 +2,7 @@
 #define GAMECONTROLLER_H
 
 #include "player.h"
-#include <time.h>
+#include <unistd.h>
 #include <QLabel>
 
 enum GameState {
@@ -62,6 +62,10 @@ public:
     void botShot();
 
     QLabel *infoLabel;
+
+    void takeShot(Player* whoShots, Player* whoseField, QPoint point);
+
+    void swapGameState();
 private:
     GameState gameState;
 

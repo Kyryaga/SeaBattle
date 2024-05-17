@@ -90,12 +90,14 @@ Ship *Board::getShipByCell(QPoint point)
             }
         }
     } else {
-        // значит нос корабля сверху
-        point = QPoint(point.x(), point.y() - 1);
+        while (true) {
+            // значит нос корабля сверху
+            point = QPoint(point.x(), point.y() - 1);
 
-        for (Ship* ship : flot) {
-            if (ship->getCoords() == point)
-                return ship;
+            for (Ship* ship : flot) {
+                if (ship->getCoords() == point)
+                    return ship;
+            }
         }
     }
 

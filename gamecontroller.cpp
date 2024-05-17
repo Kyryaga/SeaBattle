@@ -538,18 +538,30 @@ void GameController::botRandomShipsPlacing()
 
 }
 
-void GameController::playerShot(QPoint point)
-{
-    Board* board = bot->getBoard();
-    QPoint shotedPoint = player->performShot(point);
+void GameController::swapGameState() {
+    if (getGameState() == GameState::ENEMY_TURN)
+        setGameState(GameState::PLAYER_TURN);
+    else if (getGameState() == GameState::PLAYER_TURN){
+        setGameState(GameState::ENEMY_TURN);
+    }
+}
+
+
+void GameController::takeShot(Player* whoShots, Player* whoseField, QPoint point) {
+    Board* board = whoseField->getBoard();
+    QPoint shotedPoint = whoShots->performShot(point);
 
     qDebug() << "Статус выстрела: " << shotedPoint;
 
     if (board->getCellState(shotedPoint) == Cell::EMPTY) {
         board->setCellState(shotedPoint, Cell::DOT);
         // TODO: переход к ходу бота
-        setGameState(GameState::ENEMY_TURN);
-        infoLabel->setText("Ход Бота!");
+        swapGameState();
+        if (getGameState() == GameState::ENEMY_TURN)
+            infoLabel->setText("Ход Бота!");
+        else {
+            infoLabel->setText("Ваш ход!");
+        }
 
     } else if (board->getCellState(shotedPoint) == Cell::SHIP) {
         // обработка попадания по кораблю
@@ -583,14 +595,19 @@ void GameController::playerShot(QPoint point)
 
         }
     }
+}
+
+void GameController::playerShot(QPoint point)
+{
+    takeShot(player, bot, point);
 
 }
 
 void GameController::botShot()
 {
-    QPoint shotStatus = bot->performShot();
+    takeShot(bot, player, QPoint(-1, -1));
 
-    qDebug() << "Статус выстрела: " << shotStatus;
+    sleep(2);
 }
 
 

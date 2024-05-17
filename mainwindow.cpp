@@ -104,7 +104,15 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                     qp.setY(9);
 
                 gameController->playerShot(qp);
-                update();
+                repaint();
+                QApplication::processEvents();
+
+                while (gameController->getGameState() == GameState::ENEMY_TURN) {
+                    // ход бота
+                    gameController->botShot();
+                    repaint();
+                    QApplication::processEvents();
+                }
             }
         }
     }
@@ -135,6 +143,51 @@ void MainWindow::paintEvent(QPaintEvent *event)
             }
 
             painter.drawPixmap(drawPoint, QPixmap(":images/full.png"));
+        } else if (currentCellsState[i] == Cell::DAMAGED) {
+            QPoint drawPoint;
+
+            int x = i % 10;
+            int y = i / 10;
+
+            if (x < 5 && y < 5) {
+                drawPoint.setX(MYFIELD_X + (x * CELL_SIZE));
+                drawPoint.setY(MYFIELD_Y + (y * CELL_SIZE));
+            } else {
+                drawPoint.setX(MYFIELD_HALF_X + ((x - 5) * CELL_SIZE));
+                drawPoint.setY(MYFIELD_HALF_Y + ((y - 5) * CELL_SIZE));
+            }
+
+            painter.drawPixmap(drawPoint, QPixmap(":images/redhalf.png"));
+        } else if (currentCellsState[i] == Cell::DEAD) {
+            QPoint drawPoint;
+
+            int x = i % 10;
+            int y = i / 10;
+
+            if (x < 5 && y < 5) {
+                drawPoint.setX(MYFIELD_X + (x * CELL_SIZE));
+                drawPoint.setY(MYFIELD_Y + (y * CELL_SIZE));
+            } else {
+                drawPoint.setX(MYFIELD_HALF_X + ((x - 5) * CELL_SIZE));
+                drawPoint.setY(MYFIELD_HALF_Y + ((y - 5) * CELL_SIZE));
+            }
+
+            painter.drawPixmap(drawPoint, QPixmap(":images/redfull.png"));
+        } else if (currentCellsState[i] == Cell::DOT) {
+            QPoint drawPoint;
+
+            int x = i % 10;
+            int y = i / 10;
+
+            if (x < 5 && y < 5) {
+                drawPoint.setX(MYFIELD_X + (x * CELL_SIZE));
+                drawPoint.setY(MYFIELD_Y + (y * CELL_SIZE));
+            } else {
+                drawPoint.setX(MYFIELD_HALF_X + ((x - 5) * CELL_SIZE));
+                drawPoint.setY(MYFIELD_HALF_Y + ((y - 5) * CELL_SIZE));
+            }
+
+            painter.drawPixmap(drawPoint, QPixmap(":images/dot.png"));
         }
     }
 
