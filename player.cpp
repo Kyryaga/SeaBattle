@@ -34,6 +34,11 @@ Board *Player::getBoard()
     return board;
 }
 
+int Player::performShot(Player *player, QPoint point)
+{
+    return shotS->shot(player, point);
+}
+
 
 
 Ship* HumanPlayer::createShip(int w)

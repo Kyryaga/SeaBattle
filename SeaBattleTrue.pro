@@ -14,7 +14,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     player.cpp \
-    ship.cpp
+    ship.cpp \
+    shotsstrategy.cpp
 
 HEADERS += \
     Defines.h \
@@ -22,7 +23,8 @@ HEADERS += \
     gamecontroller.h \
     mainwindow.h \
     player.h \
-    ship.h
+    ship.h \
+    shotsstrategy.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

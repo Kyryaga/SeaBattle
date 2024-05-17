@@ -85,9 +85,20 @@ void GameController::setBotCellState(QPoint point, int stateNum)
     return setCellState(bot, point, stateNum);
 }
 
-void GameController::getBotCellState(QPoint point)
-{
+Cell getCellState(QPoint point, Player* somePlayer) {
+    Board *board = somePlayer->getBoard();
 
+    return board->getCellState(point);
+}
+
+Cell GameController::getBotCellState(QPoint point)
+{
+    return getCellState(point, bot);
+}
+
+Cell GameController::getPlayerCellState(QPoint point)
+{
+    return getCellState(point, player);
 }
 
 void GameController::setPlayerCellState(QPoint point, int stateNum)
@@ -525,6 +536,20 @@ void GameController::botRandomShipsPlacing()
     // синхронизация
     syncBotShipsCells();
 
+}
+
+void GameController::playerShot(QPoint point)
+{
+    int shotStatus = player->performShot(bot, point);
+
+    qDebug() << "Статус выстрела: " << shotStatus;
+}
+
+void GameController::botShot()
+{
+    int shotStatus = bot->performShot(player);
+
+    qDebug() << "Статус выстрела: " << shotStatus;
 }
 
 

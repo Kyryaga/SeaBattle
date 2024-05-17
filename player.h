@@ -3,6 +3,7 @@
 
 #include "board.h"
 #include "Defines.h"
+#include "shotsstrategy.h"
 
 
 class Player
@@ -17,14 +18,20 @@ public:
 
     Board *getBoard();
 
-private:
+    int performShot(Player* player, QPoint point = QPoint(-1, -1));
+
+protected:
     Board* board;
+
+    ShotsStrategy* shotS;
 };
 
 
 class HumanPlayer : public Player {
 public:
-    HumanPlayer() {};
+    HumanPlayer() {
+        shotS = new ManualShotStrategy();
+    };
 
     Ship* createShip(int w) override;
 };
@@ -32,7 +39,9 @@ public:
 
 class AIPlayer : public Player {
 public:
-    AIPlayer() {};
+    AIPlayer() {
+        shotS = new FullRandomShotStrategy();
+    };
 
     Ship* createShip(int w) override;
 };

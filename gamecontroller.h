@@ -32,6 +32,10 @@ public:
 
     void setBotCellState(QPoint point, int stateNum);
 
+    Cell getBotCellState(QPoint point);
+
+    Cell getPlayerCellState(QPoint point);
+
     void printPlayerAllCellStates();
 
     void printBotAllCellStates();
@@ -51,6 +55,10 @@ public:
     void setGameState(GameState newState);
 
     void botRandomShipsPlacing();
+
+    void playerShot(QPoint point);
+
+    void botShot();
 
 private:
     GameState gameState;

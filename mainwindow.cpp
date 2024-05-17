@@ -100,12 +100,8 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                 if (qp.y() == 10)
                     qp.setY(9);
 
-                if (gameController->isBotEmptyCell(qp)) {
-                    gameController->setBotCellState(qp, Cell::DOT);
-                    update();
-                } else {
-                    qDebug() << qp.x() << "," << qp.y() << " - корабль или точка";
-                }
+                gameController->playerShot(qp);
+                update();
             }
         }
     }
