@@ -18,7 +18,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    QPoint getCoords(int x, int y);
+    QPoint getCoordsPlayer(int x, int y);
+    QPoint getCoords(int x, int y, int fieldX, int fieldY);
 
 private:
     GameController* gameController;
