@@ -3,6 +3,7 @@
 
 #include "player.h"
 #include <time.h>
+#include <QLabel>
 
 enum GameState {
     SHIPS_PLACING,
@@ -60,6 +61,7 @@ public:
 
     void botShot();
 
+    QLabel *infoLabel;
 private:
     GameState gameState;
 

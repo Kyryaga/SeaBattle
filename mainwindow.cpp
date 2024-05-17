@@ -16,13 +16,13 @@ MainWindow::MainWindow(QWidget *parent)
     this->setPalette(pal);
 
     // размещение кнопки
-    infoLabel = new QLabel(this);
+    gameController->infoLabel = new QLabel(this);
 
-    infoLabel->move(200, 260);
-    infoLabel->setText("Расставьте корабли!");
-    infoLabel->setFixedSize(170, 40);
-    infoLabel->setStyleSheet("font-weight: bold; border-style: outset; border-width: 2px; border-radius: 10px;");
-    infoLabel->setAlignment(Qt::AlignCenter);
+    gameController->infoLabel->move(200, 260);
+    gameController->infoLabel->setText("Расставьте корабли!");
+    gameController->infoLabel->setFixedSize(170, 40);
+    gameController->infoLabel->setStyleSheet("font-weight: bold; border-style: outset; border-width: 2px; border-radius: 10px;");
+    gameController->infoLabel->setAlignment(Qt::AlignCenter);
 }
 
 MainWindow::~MainWindow() {
@@ -79,12 +79,12 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                         gameController->setPlayerCellState(qp, 2);
 
                         if (gameController->checkPlayerShipPlacement()) {
-                            infoLabel->setText("Начать - ПРОБЕЛ");
+                            gameController->infoLabel->setText("Начать - ПРОБЕЛ");
                         }
                     }
                 } else {
                     gameController->setPlayerCellState(qp, 0);
-                    infoLabel->setText("Расставьте корабли!");
+                    gameController->infoLabel->setText("Расставьте корабли!");
                 }
 
 
@@ -206,7 +206,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 gameController->setGameState(GameState::PLAYER_TURN);
 
                 // смена надписи
-                infoLabel->setText("Твой Ход!");
+                gameController->infoLabel->setText("Твой Ход!");
             }
         }
     }

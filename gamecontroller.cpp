@@ -547,6 +547,10 @@ void GameController::playerShot(QPoint point)
 
     if (board->getCellState(shotedPoint) == Cell::EMPTY) {
         board->setCellState(shotedPoint, Cell::DOT);
+        // TODO: переход к ходу бота
+        setGameState(GameState::ENEMY_TURN);
+        infoLabel->setText("Ход Бота!");
+
     } else if (board->getCellState(shotedPoint) == Cell::SHIP) {
         // обработка попадания по кораблю
         // если корабль подбили - поставить Cell::DAMAGED, если убили - DEAD

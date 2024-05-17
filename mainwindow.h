@@ -8,7 +8,6 @@
 #include <QPainter>
 #include <QImage>
 #include <QVector>
-#include <QLabel>
 #include <QKeyEvent>
 
 class MainWindow : public QMainWindow
@@ -23,7 +22,6 @@ public:
 
 private:
     GameController* gameController;
-    QLabel* infoLabel;
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
