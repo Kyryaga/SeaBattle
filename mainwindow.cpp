@@ -107,11 +107,36 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                 repaint();
                 QApplication::processEvents();
 
+                // проверка на завершение игры
+
+                int gO_status = gameController->checkForGameOver();
+                if (gameController->checkForGameOver() != 0) {
+                    if (gO_status == 2) {
+                        gameController->setGameState(GameState::GAMEOVER);
+                        gameController->infoLabel->setText("Вы Победили!");
+                    } else {
+                        gameController->setGameState(GameState::GAMEOVER);
+                        gameController->infoLabel->setText("Вы Проиграли!");
+                    }
+                }
+
                 while (gameController->getGameState() == GameState::ENEMY_TURN) {
                     // ход бота
                     gameController->botShot();
                     repaint();
                     QApplication::processEvents();
+
+                    // проверка на завершение игры
+                    int gO_status = gameController->checkForGameOver();
+                    if (gameController->checkForGameOver() != 0) {
+                        if (gO_status == 2) {
+                            gameController->setGameState(GameState::GAMEOVER);
+                            gameController->infoLabel->setText("Вы Победили!");
+                        } else {
+                            gameController->setGameState(GameState::GAMEOVER);
+                            gameController->infoLabel->setText("Вы Проиграли!");
+                        }
+                    }
                 }
             }
         }

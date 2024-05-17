@@ -13,8 +13,6 @@ void Board::setCellState(QPoint point, Cell state)
 {
     if (point.x() < 10 && point.x() >= 0 && point.y() < 10 && point.y() >= 0)
         cells[point.x() + 10 * point.y()] = state;
-
-    qDebug() << "Small warning from setCellState: переданы некорретные координаты";
 }
 
 Cell Board::getCellState(QPoint point)

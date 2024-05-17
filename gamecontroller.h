@@ -8,7 +8,8 @@
 enum GameState {
     SHIPS_PLACING,
     PLAYER_TURN,
-    ENEMY_TURN
+    ENEMY_TURN,
+    GAMEOVER
 };
 
 class GameController
@@ -66,6 +67,8 @@ public:
     void takeShot(Player* whoShots, Player* whoseField, QPoint point);
 
     void swapGameState();
+
+    int checkForGameOver();
 private:
     GameState gameState;
 

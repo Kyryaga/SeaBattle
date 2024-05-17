@@ -24,4 +24,7 @@ const int SHIPS3COUNT = 2;
 const int SHIPS2COUNT = 3;
 const int SHIPS1COUNT = 4;
 
+const float FOR_TEST_BOT_DELAY = 0.5;
+const int REAL_BOT_DELAY = 1;
+
 #endif // DEFINES_H

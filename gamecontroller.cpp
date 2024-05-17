@@ -546,12 +546,43 @@ void GameController::swapGameState() {
     }
 }
 
+int GameController::checkForGameOver()
+{
+    Board* playerBoard = player->getBoard();
+    Board* botBoard = bot->getBoard();
+    QVector<Ship*> botFlot = botBoard->getFlot();
+    QVector<Ship*> playerFlot = playerBoard->getFlot();
+
+    int playerSummuryHelth = 0;
+
+    for (Ship* ship : playerFlot) {
+        playerSummuryHelth += ship->getHealth();
+    }
+
+    if (playerSummuryHelth == 0) {
+        return 1; // победа бота
+    }
+
+    int botSummuryHelth = 0;
+    for (Ship* ship : botFlot) {
+        botSummuryHelth += ship->getHealth();
+    }
+
+    if (botSummuryHelth == 0) {
+        return 2; // победа игрока
+    }
+
+    // qDebug() << "Суммарное здоровье игрока:" << playerSummuryHelth;
+    // qDebug() << "Суммарное здоровье бота:" << botSummuryHelth;
+
+    return 0;
+}
+
 
 void GameController::takeShot(Player* whoShots, Player* whoseField, QPoint point) {
     Board* board = whoseField->getBoard();
     QPoint shotedPoint = whoShots->performShot(point);
 
-    qDebug() << "Статус выстрела: " << shotedPoint;
 
     if (board->getCellState(shotedPoint) == Cell::EMPTY) {
         board->setCellState(shotedPoint, Cell::DOT);
@@ -576,7 +607,7 @@ void GameController::takeShot(Player* whoShots, Player* whoseField, QPoint point
 
         if (shipHealth != 0) {
             // не добили
-            qDebug() << "Подбили" << shotedShip->getWeight() << "палубник";
+            int d = 0;
         } else {
             // убили
             // установка всех клеток, пренадлежащих кораблю в статус DEAD
@@ -626,7 +657,7 @@ void GameController::botShot()
 {
     takeShot(bot, player, QPoint(-1, -1));
 
-    sleep(2);
+    sleep(FOR_TEST_BOT_DELAY);
 }
 
 
