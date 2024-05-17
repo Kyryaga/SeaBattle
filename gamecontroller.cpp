@@ -85,6 +85,11 @@ void GameController::setBotCellState(QPoint point, int stateNum)
     return setCellState(bot, point, stateNum);
 }
 
+void GameController::getBotCellState(QPoint point)
+{
+
+}
+
 void GameController::setPlayerCellState(QPoint point, int stateNum)
 {
     return setCellState(player, point, stateNum);

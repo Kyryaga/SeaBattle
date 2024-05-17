@@ -100,7 +100,12 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                 if (qp.y() == 10)
                     qp.setY(9);
 
-                qDebug() << "Поле противника: " << qp.x() << ", " << qp.y();
+                if (gameController->isBotEmptyCell(qp)) {
+                    gameController->setBotCellState(qp, Cell::DOT);
+                    update();
+                } else {
+                    qDebug() << qp.x() << "," << qp.y() << " - корабль или точка";
+                }
             }
         }
     }
@@ -137,7 +142,24 @@ void MainWindow::paintEvent(QPaintEvent *event)
     QVector<Cell> currentCellsStateBot = gameController->getBotAllCells();
 
     // отрисовка поля бота
-    // ...
+    for (int i {0}; i < currentCellsStateBot.size(); i++) {
+        if (currentCellsStateBot[i] == Cell::DOT) {
+            QPoint drawPoint;
+
+            int x = i % 10;
+            int y = i / 10;
+
+            if (x < 5 && y < 5) {
+                drawPoint.setX(ENEMYFIELD_X + (x * CELL_SIZE));
+                drawPoint.setY(ENEMYFIELD_Y + (y * CELL_SIZE));
+            } else {
+                drawPoint.setX(ENEMYFIELD_HALF_X + ((x - 5) * CELL_SIZE));
+                drawPoint.setY(ENEMYFIELD_HALF_Y + ((y - 5) * CELL_SIZE));
+            }
+
+            painter.drawPixmap(drawPoint, QPixmap(":images/dot.png"));
+        }
+    }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)

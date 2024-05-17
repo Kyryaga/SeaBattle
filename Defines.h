@@ -11,6 +11,9 @@ const int MYFIELD_HALF_Y = 148;
 const int ENEMYFIELD_X = 323;
 const int ENEMYFIELD_Y = 42;
 
+const int ENEMYFIELD_HALF_X = 430;
+const int ENEMYFIELD_HALF_Y = 148;
+
 const int FIELD_WIDTH = 216;
 const int FIELD_HEIGHT = 217;
 
